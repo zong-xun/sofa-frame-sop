@@ -61,7 +61,7 @@ body {
 .empty { padding: 56px 22px; text-align: center; color: var(--muted); font-size: 17px; }
 
 /* ---------- SOP：步驟檢視 ---------- */
-#sopDetail { display: none; flex-direction: column; height: 100%; }
+#sopDetail { display: none; flex-direction: column; height: 100%; min-height: 0; }
 #sopDetail.on { display: flex; }
 .dhead { flex: 0 0 auto; display: flex; align-items: center; gap: 14px; padding: 12px 18px; border-bottom: 1px solid var(--line); background: var(--panel); }
 .dcode { font-size: 24px; font-weight: 800; letter-spacing: .5px; }
@@ -77,9 +77,11 @@ body {
   padding: 10px 16px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit;
 }
 
-.stage { flex: 1; overflow: hidden; position: relative; opacity: 1; transition: opacity .15s ease; }
-.stage.fading { opacity: 0; }
+.stage { flex: 1; min-height: 0; overflow: hidden; position: relative; }
 .slide { position: absolute; inset: 0; display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; padding: 20px 24px; }
+.slide { transition: transform .22s ease, opacity .22s ease; will-change: transform, opacity; }
+.slide.enter-right, .slide.slide-out-right { transform: translateX(36px); opacity: 0; }
+.slide.enter-left, .slide.slide-out-left { transform: translateX(-36px); opacity: 0; }
 .media {
   background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); position: relative;
   display: flex; align-items: center; justify-content: center; overflow: hidden; min-height: 0;
@@ -180,6 +182,10 @@ body {
   .topbar-menu .grow { display: none; }
   .search { width: 100%; }
   .search input { width: 100%; }
+
+  /* 圖例說明（紅圈/藍圈）在小螢幕上會浮貼在圖片跟按鈕之間，容易跟其他區塊擠在一起、看起來像疊在圖片上，
+     手機直接隱藏，同樣的說明「圖例規範」分頁已經有完整版 */
+  .legend { display: none; }
 
   /* 下一步／上一步：平常收在畫面下方看不到，往下滑動內容才浮現，讓照片盡量佔滿畫面 */
   #sopDetail { position: relative; }

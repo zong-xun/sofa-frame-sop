@@ -1,5 +1,4 @@
 const $ = (s) => document.querySelector(s);
-const FADE_MS = 150;
 
 /* ================= 分頁切換 ================= */
 function tab(name) {
@@ -70,7 +69,10 @@ function sopHome() {
   setTimeout(() => $("#q").focus(), 0);
 }
 
-function render() {
+// dir：1 = 這一步是往「下一步」方向切過來的（從右側滑入）
+//     -1 = 這一步是往「上一步」方向切過來的（從左側滑入）
+//      0/省略 = 第一次開啟型號，不用動畫
+function render(dir) {
   const m = MODELS[mi],
     s = m.steps[si];
 
@@ -88,8 +90,9 @@ function render() {
 
   const media = s.img ? `<img src="${s.img}" alt="${s.name}">` : `<span class="demo-tag">示範用示意圖</span>${s.art || ""}`;
   const note = s.warn ? `<div class="box note"><h4>⚠ 注意</h4><p>${s.warn}</p></div>` : "";
+  const enterClass = dir === 1 ? "enter-right" : dir === -1 ? "enter-left" : "";
 
-  $("#stage").innerHTML = `<div class="slide"><div class="media">${media}</div>
+  $("#stage").innerHTML = `<div class="slide ${enterClass}"><div class="media">${media}</div>
     <div class="side"><div class="stepname"><span class="n">第 ${si + 1} 步</span>．${s.name}</div>
     <div class="box"><h4>做法</h4><p>${s.desc}</p></div>${note}</div></div>`;
 
@@ -97,6 +100,14 @@ function render() {
   const last = si === m.steps.length - 1;
   $("#next").disabled = last;
   $("#next").innerHTML = last ? "已到最後一步" : "下一步 →";
+
+  if (enterClass) {
+    const slideEl = $("#stage .slide");
+    // 先讓瀏覽器畫一次「還在偏移位置」的畫面，下一影格再拿掉偏移 class 觸發過渡動畫滑回定位
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => slideEl.classList.remove("enter-right", "enter-left"));
+    });
+  }
 
   updateNavReveal();
 }
@@ -111,19 +122,20 @@ function updateNavReveal() {
   navbar.classList.toggle("show", !scrollable || stage.scrollTop > 16);
 }
 
-// 切換步驟時淡出→換內容→淡入，避免整塊畫面瞬間跳掉的生硬感
+// 切換步驟時：舊內容依方向滑出，新內容從對側滑入，取代原本單純淡出淡入
+const SLIDE_MS = 220;
 function goToStep(target) {
   const n = MODELS[mi].steps.length;
   const clamped = Math.max(0, Math.min(n - 1, target));
   if (clamped === si) return;
+  const dir = clamped > si ? 1 : -1;
   si = clamped;
 
   const stage = $("#stage");
-  stage.classList.add("fading");
-  window.setTimeout(() => {
-    render();
-    stage.classList.remove("fading");
-  }, FADE_MS);
+  const outgoing = stage.querySelector(".slide");
+  if (outgoing) outgoing.classList.add(dir === 1 ? "slide-out-left" : "slide-out-right");
+
+  window.setTimeout(() => render(dir), SLIDE_MS);
 }
 function step(d) {
   goToStep(si + d);
