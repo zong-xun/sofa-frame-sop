@@ -162,3 +162,14 @@ body {
   .map { max-height: 44vh; }
   .guide-grid { grid-template-columns: 1fr; }
 }
+
+/* 手機：topbar 改成清楚的上下堆疊，搜尋框自己獨立一整排，不要跟著 tabs 擠成畸零的一小塊 */
+@media (max-width: 600px) {
+  .topbar { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px 14px; }
+  .brand { text-align: center; }
+  .brand small { text-align: center; }
+  .tabs { margin-left: 0; justify-content: center; flex-wrap: wrap; }
+  .grow { display: none; }
+  .search { width: 100%; }
+  .search input { width: 100%; }
+}
