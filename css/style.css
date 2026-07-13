@@ -166,9 +166,13 @@ body {
   .box p { font-size: 17px; }
   .prog .dots { display: none; }
   .nav { font-size: 18px; padding: 16px; }
-  .main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; }
-  .map { max-height: 58vh; }
+  /* 地圖跟材料清單各分一定比例的畫面高度，兩塊各自內部捲動，
+     而不是地圖想多高就多高、把清單擠到剩一小條 */
+  .main { grid-template-columns: 1fr; grid-template-rows: 40vh 1fr; overflow: hidden; gap: 12px; padding: 12px; }
+  .panel { min-height: 0; }
+  .map { max-height: none; min-height: 0; }
   .map svg { max-width: 420px; }
+  .listwrap { min-height: 0; }
   .guide-grid { grid-template-columns: 1fr; }
 
   /* 選單收成漢堡按鈕：平常只看到品牌名＋漢堡按鈕，點了才展開分頁/搜尋 */
