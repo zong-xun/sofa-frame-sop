@@ -11,6 +11,15 @@ function tab(name) {
   $("#findSearch").hidden = name !== "find";
   if (name === "guide") renderGuide();
   if (name === "find") refreshFind();
+  closeMenu();
+}
+
+/* ================= 手機漢堡選單 ================= */
+function toggleMenu() {
+  $("#topbarMenu").classList.toggle("open");
+}
+function closeMenu() {
+  $("#topbarMenu").classList.remove("open");
 }
 
 /* ================= SOP：型號列表 + 步驟檢視 ================= */
@@ -88,6 +97,18 @@ function render() {
   const last = si === m.steps.length - 1;
   $("#next").disabled = last;
   $("#next").innerHTML = last ? "已到最後一步" : "下一步 →";
+
+  updateNavReveal();
+}
+
+// 手機版「上一步／下一步」平常收在畫面下方，往下滑動內容才浮現；
+// 內容本身不用捲動時（很短的步驟）就直接常駐顯示，避免使用者卡住點不到
+function updateNavReveal() {
+  const stage = $("#stage");
+  const navbar = $(".navbar");
+  if (!stage || !navbar) return;
+  const scrollable = stage.scrollHeight > stage.clientHeight + 4;
+  navbar.classList.toggle("show", !scrollable || stage.scrollTop > 16);
 }
 
 // 切換步驟時淡出→換內容→淡入，避免整塊畫面瞬間跳掉的生硬感
@@ -283,3 +304,6 @@ document.addEventListener("touchend", (e) => {
 
 $("#q").addEventListener("input", (e) => renderHome(e.target.value));
 renderHome();
+
+$("#stage").addEventListener("scroll", updateNavReveal, { passive: true });
+window.addEventListener("resize", updateNavReveal);

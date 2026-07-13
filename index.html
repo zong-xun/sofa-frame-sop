@@ -9,15 +9,21 @@
 <body>
 <div id="app">
   <div class="topbar">
-    <div class="brand">沙發木架 SOP 總看板<small>型號步驟・找料・使用規範</small></div>
-    <div class="tabs">
-      <button class="tab on" data-tab="sop" onclick="tab('sop')">📋 型號 SOP</button>
-      <button class="tab" data-tab="find" onclick="tab('find')">🔍 找料位置</button>
-      <button class="tab" data-tab="guide" onclick="tab('guide')">📐 圖例規範</button>
+    <div class="topbar-row">
+      <div class="brand">沙發木架 SOP 總看板<small>型號步驟・找料・使用規範</small></div>
+      <div class="grow"></div>
+      <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="選單">☰</button>
     </div>
-    <div class="grow"></div>
-    <label class="search" id="sopSearch">🔎 <input id="q" type="search" placeholder="搜尋型號…" autocomplete="off"></label>
-    <label class="search" id="findSearch" hidden>🔎 <input id="fq" type="search" placeholder="搜尋代號或料名…" autocomplete="off"></label>
+    <div class="topbar-menu" id="topbarMenu">
+      <div class="tabs">
+        <button class="tab on" data-tab="sop" onclick="tab('sop')">📋 型號 SOP</button>
+        <button class="tab" data-tab="find" onclick="tab('find')">🔍 找料位置</button>
+        <button class="tab" data-tab="guide" onclick="tab('guide')">📐 圖例規範</button>
+      </div>
+      <div class="grow"></div>
+      <label class="search" id="sopSearch">🔎 <input id="q" type="search" placeholder="搜尋型號…" autocomplete="off"></label>
+      <label class="search" id="findSearch" hidden>🔎 <input id="fq" type="search" placeholder="搜尋代號或料名…" autocomplete="off"></label>
+    </div>
   </div>
 
   <!-- ===== SOP：型號列表 + 步驟檢視 ===== -->

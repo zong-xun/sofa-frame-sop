@@ -13,10 +13,12 @@ body {
 #app { height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
 
 /* topbar + tabs */
-.topbar { flex: 0 0 auto; display: flex; align-items: center; gap: 14px; padding: 12px 18px; background: var(--ink); color: #fff; flex-wrap: wrap; }
+.topbar { flex: 0 0 auto; display: flex; align-items: center; gap: 14px; padding: 12px 18px; background: var(--ink); color: #fff; }
+.topbar-row { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+.topbar-menu { display: flex; align-items: center; gap: 14px; flex: 1; }
 .brand { font-size: 22px; font-weight: 800; letter-spacing: .5px; line-height: 1.1; white-space: nowrap; }
 .brand small { display: block; font-size: 11px; font-weight: 500; color: #C9B79E; letter-spacing: 2px; }
-.tabs { display: flex; gap: 8px; margin-left: 8px; }
+.tabs { display: flex; gap: 8px; }
 .tab {
   display: inline-flex; align-items: center; gap: 7px; background: transparent; border: 1px solid #564d40;
   border-radius: 999px; padding: 10px 18px; color: #D8CDBE; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit;
@@ -28,6 +30,11 @@ body {
 .search input { background: transparent; border: 0; outline: 0; color: #fff; font-size: 16px; width: 170px; font-family: inherit; }
 .search input::placeholder { color: #9A8F80; }
 .search[hidden] { display: none; }
+.hamburger {
+  display: none; background: transparent; border: 1px solid #564d40; color: #fff; font-size: 20px;
+  border-radius: 10px; padding: 8px 14px; cursor: pointer; line-height: 1;
+}
+.hamburger:active { transform: scale(.95); }
 
 .view { flex: 1; min-height: 0; display: none; flex-direction: column; }
 .view.on { display: flex; }
@@ -146,12 +153,11 @@ body {
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
 @media (max-width: 860px) {
-  .topbar { flex-wrap: wrap; }
   .brand { font-size: 19px; }
   .tab { padding: 9px 14px; font-size: 15px; }
   .search input { width: 110px; }
   .stage { overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  .slide { position: static; inset: auto; display: flex; flex-direction: column; height: auto; min-height: 100%; gap: 14px; padding: 16px; }
+  .slide { position: static; inset: auto; display: flex; flex-direction: column; height: auto; min-height: 100%; gap: 14px; padding: 16px 16px 90px; }
   .media { width: 100%; aspect-ratio: 4/3; min-height: 200px; flex: 0 0 auto; }
   .side { overflow: visible; }
   .stepname { font-size: 22px; }
@@ -161,15 +167,27 @@ body {
   .main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; }
   .map { max-height: 44vh; }
   .guide-grid { grid-template-columns: 1fr; }
-}
 
-/* 手機：topbar 改成清楚的上下堆疊，搜尋框自己獨立一整排，不要跟著 tabs 擠成畸零的一小塊 */
-@media (max-width: 600px) {
-  .topbar { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px 14px; }
-  .brand { text-align: center; }
-  .brand small { text-align: center; }
-  .tabs { margin-left: 0; justify-content: center; flex-wrap: wrap; }
-  .grow { display: none; }
+  /* 選單收成漢堡按鈕：平常只看到品牌名＋漢堡按鈕，點了才展開分頁/搜尋 */
+  .hamburger { display: inline-flex; align-items: center; justify-content: center; }
+  .topbar { flex-direction: column; align-items: stretch; gap: 0; padding: 10px 14px; }
+  .topbar-menu {
+    display: none; flex-direction: column; align-items: stretch; gap: 10px;
+    width: 100%; margin-top: 10px;
+  }
+  .topbar-menu.open { display: flex; }
+  .tabs { justify-content: center; flex-wrap: wrap; }
+  .topbar-menu .grow { display: none; }
   .search { width: 100%; }
   .search input { width: 100%; }
+
+  /* 下一步／上一步：平常收在畫面下方看不到，往下滑動內容才浮現，讓照片盡量佔滿畫面 */
+  #sopDetail { position: relative; }
+  .navbar {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 5;
+    transform: translateY(100%);
+    transition: transform .2s ease;
+    box-shadow: 0 -8px 16px rgba(46, 42, 38, .18);
+  }
+  .navbar.show { transform: translateY(0); }
 }
