@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>沙發木架 SOP 總看板</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="brand">沙發木架 SOP 總看板<small>型號步驟・找料・使用規範</small></div>
+    <div class="tabs">
+      <button class="tab on" data-tab="sop" onclick="tab('sop')">📋 型號 SOP</button>
+      <button class="tab" data-tab="find" onclick="tab('find')">🔍 找料位置</button>
+      <button class="tab" data-tab="guide" onclick="tab('guide')">📐 圖例規範</button>
+    </div>
+    <div class="grow"></div>
+    <label class="search" id="sopSearch">🔎 <input id="q" type="search" placeholder="搜尋型號…" autocomplete="off"></label>
+    <label class="search" id="findSearch" hidden>🔎 <input id="fq" type="search" placeholder="搜尋代號或料名…" autocomplete="off"></label>
+  </div>
+
+  <!-- ===== SOP：型號列表 + 步驟檢視 ===== -->
+  <div id="view-sop" class="view on">
+    <div id="sopHome" class="screen"><div id="grid" class="grid"></div></div>
+
+    <div id="sopDetail">
+      <div class="dhead">
+        <button class="back" onclick="sopHome()">‹ 回列表</button>
+        <div><div class="dcode" id="dcode"></div><div class="dtype" id="dtype"></div></div>
+        <div class="prog">
+          <button class="vbtn" id="vbtn" style="display:none" onclick="playVideo()">▶ 看示範</button>
+          <div class="dots" id="dots"></div><div class="txt" id="ptxt"></div>
+        </div>
+      </div>
+
+      <div class="stage" id="stage"></div>
+
+      <div class="legend">
+        <span class="lg"><span class="ring" style="border-color:var(--red)"></span>紅圈：釘槍釘點</span>
+        <span class="lg"><span class="ring" style="border-color:var(--blue)"></span>藍圈：對齊基準</span>
+        <span class="lg" style="color:var(--wood-dk)">①②③：組裝順序</span>
+      </div>
+
+      <div class="navbar">
+        <button class="nav" id="prev" onclick="step(-1)">‹ 上一步</button>
+        <button class="nav primary" id="next" onclick="step(1)">下一步 ›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 找料位置 ===== -->
+  <div id="view-find" class="view">
+    <div class="main">
+      <div class="panel">
+        <div class="ph">🗺 倉庫示意地圖 <span class="hint">點格子看放什麼</span></div>
+        <div class="map" id="map"></div>
+      </div>
+      <div class="panel">
+        <div class="ph">材料清單 <span class="hint" id="cnt"></span></div>
+        <div class="listwrap"><div class="detail" id="detail"></div><div id="list"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 圖例規範 ===== -->
+  <div id="view-guide" class="view">
+    <div class="screen"><div class="guide-wrap">
+      <h2 class="guide-h">圖例規範</h2>
+      <p class="guide-sub">同一套標示放上去，就有說明書的感覺。全工廠用同一套符號，新人一看就懂，不用每次口頭重教。</p>
+      <div class="guide-grid">
+        <div class="guide-eg" id="guideEg"></div>
+        <div id="ruleList"></div>
+      </div>
+      <div class="tip">💡 之後有真實照片，直接在 js/data.js 該步驟加上 img 路徑就會換成照片；沒有照片時就顯示這裡的示意圖，符號規則一樣。</div>
+    </div></div>
+  </div>
+</div>
+
+<script src="js/diagrams.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
