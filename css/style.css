@@ -167,7 +167,8 @@ body {
   .prog .dots { display: none; }
   .nav { font-size: 18px; padding: 16px; }
   .main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; }
-  .map { max-height: 44vh; }
+  .map { max-height: 58vh; }
+  .map svg { max-width: 420px; }
   .guide-grid { grid-template-columns: 1fr; }
 
   /* 選單收成漢堡按鈕：平常只看到品牌名＋漢堡按鈕，點了才展開分頁/搜尋 */

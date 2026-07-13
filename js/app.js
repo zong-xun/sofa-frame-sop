@@ -159,15 +159,17 @@ const zoneOf = (code) => ZONES.find((z) => z.shelves.includes(code));
 const matOf = (code) => MATERIALS.find((m) => m.code === code);
 
 function drawMap() {
-  const COLS = 3,
-    ZW = 230,
+  // 手機寬度時改成單欄堆疊，每一區塊變寬、文字跟著放大，才不會擠成一小塊看不清楚
+  const narrow = window.innerWidth <= 700;
+  const COLS = narrow ? 1 : 3,
+    ZW = narrow ? 340 : 230,
     GX = 16,
     HDR = 34,
     CELLH = 44,
     CELLGAP = 8,
     PADX = 16,
     PADTOP = 16;
-  const colH = [PADTOP, PADTOP, PADTOP],
+  const colH = Array(COLS).fill(PADTOP),
     colX = (i) => PADX + i * (ZW + GX),
     placed = [];
 
@@ -319,3 +321,6 @@ renderHome();
 
 $("#stage").addEventListener("scroll", updateNavReveal, { passive: true });
 window.addEventListener("resize", updateNavReveal);
+window.addEventListener("resize", () => {
+  if ($("#view-find").classList.contains("on")) refreshFind();
+});
