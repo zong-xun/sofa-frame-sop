@@ -3,88 +3,133 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>沙發木架 SOP 總看板</title>
+<title>沙發木架 SOP 看板</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <div id="app">
-  <div class="topbar">
-    <div class="topbar-row">
-      <div class="brand">沙發木架 SOP 總看板<small>型號步驟・找料・使用規範</small></div>
-      <div class="grow"></div>
-      <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="選單">☰</button>
-    </div>
-    <div class="topbar-menu" id="topbarMenu">
-      <div class="tabs">
-        <button class="tab on" data-tab="sop" onclick="tab('sop')">📋 型號 SOP</button>
-        <button class="tab" data-tab="find" onclick="tab('find')">🔍 找料位置</button>
-        <button class="tab" data-tab="guide" onclick="tab('guide')">📐 圖例規範</button>
-      </div>
-      <div class="grow"></div>
-      <label class="search" id="sopSearch">🔎 <input id="q" type="search" placeholder="搜尋型號…" autocomplete="off"></label>
-      <label class="search" id="findSearch" hidden>🔎 <input id="fq" type="search" placeholder="搜尋代號或料名…" autocomplete="off"></label>
-    </div>
-  </div>
 
-  <!-- ===== SOP：型號列表 + 步驟檢視 ===== -->
-  <div id="view-sop" class="view on">
-    <div id="sopHome" class="screen"><div id="grid" class="grid"></div></div>
+  <!-- 側欄（桌機） -->
+  <aside class="rail">
+    <div class="logo"><div class="mark">木</div><div><h1>沙發木架 SOP 看板</h1><small>WORKSHOP</small></div></div>
+    <button class="navitem on" data-nav="sop"><span class="ic">📋</span> 型號 SOP</button>
+    <button class="navitem" data-nav="find"><span class="ic">🔍</span> 找料位置</button>
+    <button class="navitem" data-nav="guide"><span class="ic">📐</span> 圖例規範</button>
+    <div class="spacer"></div>
+    <div class="foot">內部使用・觸控／滑鼠皆可<br>內容自行維護</div>
+  </aside>
 
-    <div id="sopDetail">
-      <div class="dhead">
-        <button class="back" onclick="sopHome()">‹ 回列表</button>
-        <div><div class="dcode" id="dcode"></div><div class="dtype" id="dtype"></div></div>
-        <div class="prog">
-          <button class="vbtn" id="vbtn" style="display:none" onclick="playVideo()">▶ 看示範</button>
-          <div class="dots" id="dots"></div><div class="txt" id="ptxt"></div>
+  <div class="stageWrap">
+    <div class="appbar">
+      <div id="ctx"><h2 id="ctxTitle">型號 SOP</h2><div class="sub" id="ctxSub">選型號 → 查用料 → 看完成樣 → 開始組裝</div></div>
+      <div class="grow"></div>
+      <label class="search" id="sopSearch">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C756B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="q" type="search" placeholder="搜尋型號…" autocomplete="off">
+      </label>
+      <label class="search" id="findSearch" hidden>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C756B" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input id="fq" type="search" placeholder="搜尋代號或料名…" autocomplete="off">
+      </label>
+    </div>
+
+    <!-- ===== SOP ===== -->
+    <section id="view-sop" class="view on">
+
+      <div id="sopList" class="scroll on"><div id="grid" class="grid"></div></div>
+
+      <div id="overview" class="scroll">
+        <div class="ov">
+          <div class="ovhead">
+            <button class="icon-btn" id="backToList" aria-label="回列表">‹</button>
+            <div><div class="code" id="ovCode"></div><div class="type" id="ovType"></div></div>
+          </div>
+          <div class="ovtitle">用料清單 · 開工前先備齊</div>
+          <div class="ovsub">逐項核對，每張料件都可以點一下跳到「找料位置」看在倉庫哪一區。</div>
+          <div id="ovList" class="bomgrid"></div>
+          <button class="startbtn" id="startDoneBtn">看完成樣 ›</button>
         </div>
       </div>
 
-      <div class="stage" id="stage"></div>
-
-      <div class="legend">
-        <span class="lg"><span class="ring" style="border-color:var(--red)"></span>紅圈：釘槍釘點</span>
-        <span class="lg"><span class="ring" style="border-color:var(--blue)"></span>藍圈：對齊基準</span>
-        <span class="lg" style="color:var(--wood-dk)">①②③：組裝順序</span>
+      <div id="done" class="scroll">
+        <div class="ov">
+          <div class="ovhead">
+            <button class="icon-btn" id="backToOverviewFromDone" aria-label="回用料清單">‹</button>
+            <div><div class="code" id="dnCode"></div><div class="type" id="dnType"></div></div>
+          </div>
+          <div class="ovtitle">完成樣 · 組好長這樣</div>
+          <div class="ovsub">先看過整體樣子，再開始一步步組裝。</div>
+          <div class="doneimg" id="dnImg"></div>
+          <button class="startbtn" id="startAssemblyBtn">開始組裝 ›</button>
+        </div>
       </div>
 
-      <div class="navbar">
-        <button class="nav" id="prev" onclick="step(-1)">‹ 上一步</button>
-        <button class="nav primary" id="next" onclick="step(1)">下一步 ›</button>
+      <div id="reader" class="reader">
+        <div class="rhead">
+          <button class="icon-btn" id="backToOverviewFromReader" aria-label="回用料清單">‹</button>
+          <div><div class="code" id="rCode"></div><div class="type" id="rType"></div></div>
+          <div class="grow"></div>
+          <button class="vbtn" id="vbtn" hidden>▶ 看示範</button>
+        </div>
+        <div class="ruler"><span class="cnt" id="rCnt"></span><div class="track"><div class="fill" id="rFill"></div></div></div>
+        <div class="rbody">
+          <div class="media"><span class="demo" id="rDemo">示意圖</span><div class="inner" id="rMedia"></div></div>
+          <div class="info" id="rInfo"></div>
+        </div>
+        <div class="rfoot">
+          <div class="rail-steps" id="rRail"></div>
+          <div class="actions">
+            <button class="act" id="rPrev">‹ 上一步</button>
+            <button class="act primary" id="rNext">下一步 ›</button>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <div class="mbackdrop" id="locBackdrop"></div>
+      <div class="locsheet" id="locSheet">
+        <div class="grab"></div>
+        <button class="dclose" id="locClose" aria-label="關閉">✕</button>
+        <div id="locBody"></div>
+      </div>
+    </section>
+
+    <!-- ===== 找料位置 ===== -->
+    <section id="view-find" class="view">
+      <div class="backdrop" id="findBackdrop"></div>
+      <div class="find">
+        <div class="board">
+          <div class="bh">🗺 倉庫示意地圖 <span class="hint">點色塊篩選材料</span></div>
+          <div class="map" id="map"></div>
+        </div>
+        <div class="board detailboard">
+          <div class="bh">材料清單 <span class="hint" id="cnt"></span></div>
+          <div class="listwrap">
+            <div class="sheet-detail" id="detail"></div>
+            <div id="list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 圖例規範 ===== -->
+    <section id="view-guide" class="view">
+      <div class="scroll"><div class="guide">
+        <h3>圖例規範</h3>
+        <p class="gsub">同一套標示放上去，就有說明書的感覺。全工廠用同一套符號，新人一看就懂。</p>
+        <div class="ggrid"><div class="geg" id="geg"></div><div id="ruleList"></div></div>
+        <div class="gtip">💡 之後有真實照片，直接在 js/data.js 該步驟加上 img／done 路徑就會換成照片；沒有照片時就顯示自動示意圖，符號規則一樣。</div>
+      </div></div>
+    </section>
   </div>
 
-  <!-- ===== 找料位置 ===== -->
-  <div id="view-find" class="view">
-    <div class="main">
-      <div class="panel">
-        <div class="ph">🗺 倉庫示意地圖 <span class="hint">點格子看放什麼</span></div>
-        <div class="map" id="map"></div>
-      </div>
-      <div class="panel">
-        <div class="ph">材料清單 <span class="hint" id="cnt"></span></div>
-        <div class="listwrap"><div class="detail" id="detail"></div><div id="list"></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== 圖例規範 ===== -->
-  <div id="view-guide" class="view">
-    <div class="screen"><div class="guide-wrap">
-      <h2 class="guide-h">圖例規範</h2>
-      <p class="guide-sub">同一套標示放上去，就有說明書的感覺。全工廠用同一套符號，新人一看就懂，不用每次口頭重教。</p>
-      <div class="guide-grid">
-        <div class="guide-eg" id="guideEg"></div>
-        <div id="ruleList"></div>
-      </div>
-      <div class="tip">💡 之後有真實照片，直接在 js/data.js 該步驟加上 img 路徑就會換成照片；沒有照片時就顯示這裡的示意圖，符號規則一樣。</div>
-    </div></div>
-  </div>
+  <!-- 底部分頁列（手機） -->
+  <nav class="tabbar">
+    <button class="tb on" data-nav="sop"><span class="ic">📋</span>型號</button>
+    <button class="tb" data-nav="find"><span class="ic">🔍</span>找料</button>
+    <button class="tb" data-nav="guide"><span class="ic">📐</span>規範</button>
+  </nav>
 </div>
 
-<script src="js/diagrams.js"></script>
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
