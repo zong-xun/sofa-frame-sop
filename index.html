@@ -73,7 +73,15 @@
         </div>
         <div class="ruler"><span class="cnt" id="rCnt"></span><div class="track"><div class="fill" id="rFill"></div></div></div>
         <div class="rbody">
-          <div class="media"><span class="demo" id="rDemo">示意圖</span><div class="inner" id="rMedia"></div></div>
+          <div class="media">
+            <span class="demo" id="rDemo">示意圖</span>
+            <div class="zoom-ctrl">
+              <button type="button" id="zoomOut" aria-label="縮小">−</button>
+              <button type="button" id="zoomReset" aria-label="還原大小">100%</button>
+              <button type="button" id="zoomIn" aria-label="放大">＋</button>
+            </div>
+            <div class="inner" id="rMedia"></div>
+          </div>
           <div class="info" id="rInfo"></div>
         </div>
         <div class="rfoot">
