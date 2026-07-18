@@ -109,35 +109,46 @@ function startAssembly() {
   render();
 }
 
-/* ---------- 照片放大/縮小 ---------- */
+/* ---------- 點照片彈出大圖，裡面可以放大/縮小 ---------- */
 const ZOOM_STEPS = [1, 1.5, 2, 2.5];
-let zoom = 1;
+let lbZoom = 1;
 
-function applyZoom() {
-  const media = document.querySelector(".media");
-  const target = document.querySelector("#rMedia > img, #rMedia > svg");
-  if (!media) return;
+function applyLbZoom() {
+  const body = $("#lightboxBody");
+  const target = document.querySelector("#lightboxBody > img, #lightboxBody > svg");
+  if (!body) return;
 
-  media.classList.toggle("zoomed", zoom > 1);
-  if (target) target.style.transform = zoom > 1 ? `scale(${zoom})` : "";
+  body.classList.toggle("zoomed", lbZoom > 1);
+  if (target) target.style.transform = lbZoom > 1 ? `scale(${lbZoom})` : "";
 
-  $("#zoomReset").textContent = Math.round(zoom * 100) + "%";
-  $("#zoomOut").disabled = zoom <= ZOOM_STEPS[0];
-  $("#zoomIn").disabled = zoom >= ZOOM_STEPS[ZOOM_STEPS.length - 1];
+  $("#lbZoomReset").textContent = Math.round(lbZoom * 100) + "%";
+  $("#lbZoomOut").disabled = lbZoom <= ZOOM_STEPS[0];
+  $("#lbZoomIn").disabled = lbZoom >= ZOOM_STEPS[ZOOM_STEPS.length - 1];
 }
-function zoomIn() {
-  const i = ZOOM_STEPS.indexOf(zoom);
-  zoom = ZOOM_STEPS[Math.min(ZOOM_STEPS.length - 1, i + 1)];
-  applyZoom();
+function lbZoomIn() {
+  const i = ZOOM_STEPS.indexOf(lbZoom);
+  lbZoom = ZOOM_STEPS[Math.min(ZOOM_STEPS.length - 1, i + 1)];
+  applyLbZoom();
 }
-function zoomOut() {
-  const i = ZOOM_STEPS.indexOf(zoom);
-  zoom = ZOOM_STEPS[Math.max(0, i - 1)];
-  applyZoom();
+function lbZoomOut() {
+  const i = ZOOM_STEPS.indexOf(lbZoom);
+  lbZoom = ZOOM_STEPS[Math.max(0, i - 1)];
+  applyLbZoom();
 }
-function resetZoom() {
-  zoom = 1;
-  applyZoom();
+function lbZoomReset() {
+  lbZoom = 1;
+  applyLbZoom();
+}
+function openLightbox() {
+  const m = MODELS[mi],
+    s = m.steps[si];
+  lbZoom = 1;
+  $("#lightboxBody").innerHTML = s.img ? `<img src="${s.img}" alt="${s.name}">` : s.art;
+  applyLbZoom();
+  openSheet($("#lightbox"), $("#lightboxBackdrop"));
+}
+function closeLightbox() {
+  closeSheet($("#lightbox"), $("#lightboxBackdrop"));
 }
 
 /* ---------- 步驟閱讀器 ---------- */
@@ -154,7 +165,7 @@ function render(dir) {
   const rMedia = $("#rMedia");
   $("#rDemo").style.display = s.img ? "none" : "";
   rMedia.innerHTML = s.img ? `<img src="${s.img}" alt="${s.name}">` : s.art;
-  resetZoom(); // 換步驟一律回到剛好放進框裡的大小，不沿用上一張的放大倍率
+  closeLightbox(); // 換步驟就把大圖檢視關掉，不要留著顯示上一張
 
   const info = $("#rInfo");
   info.innerHTML = `<div><div class="stepno">第 ${si + 1} 步</div><div class="stepname">${s.name}</div></div>
@@ -226,14 +237,19 @@ export function init() {
   $("#rNext").addEventListener("click", () => step(1));
   $("#locClose").addEventListener("click", closeLocate);
   $("#locBackdrop").addEventListener("click", closeLocate);
-  $("#zoomIn").addEventListener("click", zoomIn);
-  $("#zoomOut").addEventListener("click", zoomOut);
-  $("#zoomReset").addEventListener("click", resetZoom);
+  $("#lbZoomIn").addEventListener("click", lbZoomIn);
+  $("#lbZoomOut").addEventListener("click", lbZoomOut);
+  $("#lbZoomReset").addEventListener("click", lbZoomReset);
+  $("#lbClose").addEventListener("click", closeLightbox);
+  $("#lightboxBackdrop").addEventListener("click", closeLightbox);
+  // 點照片本身：彈出大圖檢視，裡面可以放大/縮小/拖曳查看
+  delegate($("#rMedia"), "click", "img, svg", openLightbox);
 
   $("#q").addEventListener("input", (e) => renderGrid(e.target.value));
 
   document.addEventListener("keydown", (e) => {
     if (mode !== "reader") return;
+    if ($("#lightbox").classList.contains("on")) return; // 大圖檢視開著時交給 dom.js 的 Escape 邏輯關彈層，不要連同步驟一起變動
     if (e.key === "ArrowRight") step(1);
     if (e.key === "ArrowLeft") step(-1);
     if (e.key === "Escape") showScreen("overview");
@@ -246,7 +262,7 @@ export function init() {
     ty = e.changedTouches[0].clientY;
   }, { passive: true });
   document.addEventListener("touchend", (e) => {
-    if (mode !== "reader" || zoom > 1) return; // 放大時滑動是在移動照片查看細節，不要誤觸發換步驟
+    if (mode !== "reader" || $("#lightbox").classList.contains("on")) return; // 大圖檢視開著時滑動是在查看照片，不要誤觸發換步驟
     const dx = e.changedTouches[0].clientX - tx,
       dy = e.changedTouches[0].clientY - ty;
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) step(dx < 0 ? 1 : -1);

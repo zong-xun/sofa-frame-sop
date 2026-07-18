@@ -75,11 +75,6 @@
         <div class="rbody">
           <div class="media">
             <span class="demo" id="rDemo">示意圖</span>
-            <div class="zoom-ctrl">
-              <button type="button" id="zoomOut" aria-label="縮小">−</button>
-              <button type="button" id="zoomReset" aria-label="還原大小">100%</button>
-              <button type="button" id="zoomIn" aria-label="放大">＋</button>
-            </div>
             <div class="inner" id="rMedia"></div>
           </div>
           <div class="info" id="rInfo"></div>
@@ -98,6 +93,18 @@
         <div class="grab"></div>
         <button class="dclose" id="locClose" aria-label="關閉">✕</button>
         <div id="locBody"></div>
+      </div>
+
+      <div class="mbackdrop" id="lightboxBackdrop"></div>
+      <div class="lightbox" id="lightbox">
+        <div class="lightbox-bar">
+          <button type="button" id="lbZoomOut" aria-label="縮小">−</button>
+          <button type="button" id="lbZoomReset" aria-label="還原大小">100%</button>
+          <button type="button" id="lbZoomIn" aria-label="放大">＋</button>
+          <div class="grow"></div>
+          <button type="button" id="lbClose" aria-label="關閉">✕</button>
+        </div>
+        <div class="lightbox-body" id="lightboxBody"></div>
       </div>
     </section>
 
