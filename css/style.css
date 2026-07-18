@@ -9,7 +9,7 @@
   --sh: 0 1px 2px rgba(30, 25, 18, .05), 0 6px 20px rgba(30, 25, 18, .08);
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; height: 100%; }
+html, body { margin: 0; height: 100%; overflow: hidden; }
 body {
   font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
   background: var(--paper); color: var(--ink); -webkit-user-select: none; user-select: none;
@@ -156,16 +156,16 @@ body {
 .track { flex: 1; height: 8px; border-radius: 99px; background: #0000000f; position: relative; overflow: hidden; }
 .track .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--amber); border-radius: 99px; transition: width .35s cubic-bezier(.4, 1.2, .5, 1); }
 
-.rbody { flex: 1; min-height: 0; display: grid; grid-template-columns: 1.55fr 1fr; gap: 20px; padding: 0 26px; overflow: hidden; }
+.rbody { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; padding: 0 26px; overflow: hidden; }
 .media {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--rlg); box-shadow: var(--sh);
-  position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; min-height: 0;
+  position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; min-height: 0; min-width: 0;
   background-image: linear-gradient(#00000006 1px, transparent 1px), linear-gradient(90deg, #00000006 1px, transparent 1px); background-size: 26px 26px;
 }
-.media .inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 18px; }
+.media .inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 18px; min-width: 0; min-height: 0; }
 .media img, .media svg { max-width: 100%; max-height: 100%; display: block; }
 .media .demo { position: absolute; top: 12px; left: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--muted); background: #fff; border: 1px solid var(--line); padding: 4px 9px; border-radius: 7px; }
-.info { display: flex; flex-direction: column; gap: 14px; min-height: 0; overflow-y: auto; padding-bottom: 4px; }
+.info { display: flex; flex-direction: column; gap: 14px; min-height: 0; min-width: 0; overflow-y: auto; padding-bottom: 4px; }
 .stepno { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--amber-deep); letter-spacing: 1px; }
 .stepname { font-size: 26px; font-weight: 800; line-height: 1.2; margin-top: -4px; }
 .block { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 15px 17px; box-shadow: var(--sh); }

@@ -34,13 +34,25 @@ export const MODELS = [
       { code: "E1", qty: 1 },
       { code: "E2", qty: 1 },
     ],
-    done: "",
+    // 下面 img 是實拍照片（images/A-01/0~12.jpg、final.jpg）。
+    // desc/warn 是我照片面看圖描述的初稿，實際口訣、注意事項麻煩師傅確認/修改，
+    // 現場真正的眉角(為什麼這樣接、哪裡最容易做錯)還是要靠有經驗的人補上才準。
+    done: "images/A-01/final.jpg",
     steps: [
-      { name: "檢料", desc: "核對木料尺寸與數量是否與工單相符，檢查有無裂痕、蟲蛀或明顯瑕疵。", warn: "數量不符或有瑕疵，先反應再開工，不要硬做。", img: "", art: frame(1) },
-      { name: "組裝底框", desc: "先固定四個角，量對角線確認方正，再補中間橫檔。", warn: "四角先鎖，不要先鎖中間，不然整個框會歪掉。", img: "", art: frame(2) },
-      { name: "釘槍釘點—椅背", desc: "沿椅背框邊緣打釘，釘點間距約 7 公分，四邊都要打滿。", warn: "轉角處記得加補一釘，加強結構。", img: "", art: frame(3) },
-      { name: "釘槍釘點—扶手", desc: "扶手兩側直料各打 4 釘，頂端橫料打 3 釘。", warn: "釘點不要太靠邊緣，避免木料裂開。", img: "", art: frame(4) },
-      { name: "驗收", desc: "整體搖晃測試確認無鬆動、無異音，釘點無外露、無鬆脫。", warn: "", img: "", art: frame(5) },
+      { name: "檢料", desc: "把側板要用的直料、圓弧扶手料、轉角料等全部裁好攤開，核對數量與外觀有無瑕疵。", warn: "數量不符或有瑕疵，先反應再開工，不要硬做。", img: "images/A-01/0.jpg", art: frame(1) },
+      { name: "組第一個直角", desc: "短直料與側邊直料先釘合，組出側板下緣的第一個 L 型直角。", warn: "", img: "images/A-01/1.jpg", art: frame(2) },
+      { name: "接上另一側直料", desc: "另一端接上第二支直料，中間用底部橫料串起來，形成口字型下緣骨架的雛形。", warn: "兩側直料要對稱，先比過長度再釘。", img: "images/A-01/2.jpg", art: frame(2) },
+      { name: "加中段橫檔", desc: "下緣骨架中段再加一道橫向支撐料，跟底邊橫料形成上下兩道橫檔，補強兩側直料。", warn: "", img: "images/A-01/3.jpg", art: frame(3) },
+      { name: "扶手弧料裁切", desc: "扶手用的圓弧料先裁出完整橢圓外框，再從中剖成兩條長弧形側料備用。", warn: "", img: "images/A-01/4.jpg", art: frame(1) },
+      { name: "比對扶手位置", desc: "把剖好的弧形扶手料，對齊放在下緣骨架旁邊，先比對安裝位置再固定。", warn: "先比對再釘，位置不對重釘會傷到木料。", img: "images/A-01/5.jpg", art: frame(2) },
+      { name: "壓穩扶手料", desc: "把弧形扶手料放上骨架，用手壓穩對齊，準備用釘槍固定。", warn: "", img: "images/A-01/6.jpg", art: frame(3) },
+      { name: "釘合扶手與底腳", desc: "用釘槍把弧形扶手料與骨架釘牢，底部轉角處另外補一小塊弧形墊腳。", warn: "釘點不要太靠邊緣，避免木料裂開。", img: "images/A-01/7.jpg", art: frame(3) },
+      { name: "立前腳角料", desc: "前緣再立一支小型 L 型角料，作為前腳支撐。", warn: "注意角度跟主骨架是否吻合。", img: "images/A-01/8.jpg", art: frame(4) },
+      { name: "確認釘點對齊", desc: "兩支直料並排比對，確認要打釘的位置對齊、不偏移，再下釘。", warn: "", img: "images/A-01/9.jpg", art: frame(3) },
+      { name: "加中間支撐條", desc: "骨架中段加入數支直向支撐條（其中一支是深色硬木料），分隔扶手內側的間隔支撐。", warn: "", img: "images/A-01/10.jpg", art: frame(4) },
+      { name: "檢查弧形密合度", desc: "換角度確認扶手弧形頂料跟下方支撐條、底座是否密合對正。", warn: "有縫隙或不平要先調整，不要直接硬釘。", img: "images/A-01/11.jpg", art: frame(4) },
+      { name: "補強接合處", desc: "手扶著弧形扶手料與側柱交接處，確認接合面平整後補強固定。", warn: "", img: "images/A-01/12.jpg", art: frame(4) },
+      { name: "驗收", desc: "整體搖晃測試確認無鬆動、無異音，釘點無外露、無鬆脫，外觀跟完成樣一致再入庫。", warn: "", img: "images/A-01/final.jpg", art: frame(5) },
     ],
   },
   {
